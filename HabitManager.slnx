@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="HabitManager.Domain/HabitManager.Domain.csproj" />
   <Project Path="HabitManager.Models/HabitManager.Models.csproj" />
   <Project Path="HabitManager.Test/HabitManager.Test.csproj" />
