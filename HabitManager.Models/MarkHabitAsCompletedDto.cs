@@ -5,6 +5,6 @@ using System.Text;
 namespace HabitManager.Models
 {
     public record MarkHabitAsCompletedDto(
-        string HabitId
+        Guid HabitId
     );
 }

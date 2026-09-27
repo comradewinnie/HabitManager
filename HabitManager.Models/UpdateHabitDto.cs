@@ -6,7 +6,7 @@ using System.Text;
 namespace HabitManager.Models
 {
     public record UpdateHabitDto(
-        string HabitId,
+        Guid HabitId,
         string Title,
         string? Description,
         Status Status,

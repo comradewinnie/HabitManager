@@ -6,7 +6,7 @@ namespace HabitManager.Domain
 {
     public class Habit
     {
-        public string Id { get; init; }  // MI ieteica izmantot auto-implemented properties, ja nav papildu loģikas, un ar init, ja nevajadzēs tos mainīt
+        public Guid Id { get; init; }  // MI ieteica izmantot auto-implemented properties, ja nav papildu loģikas, un ar init, ja nevajadzēs tos mainīt
         public string UserId { get; init; }
         private string _title;  // izmantoju private field, jo ir papildu loģika
         public string? Description { get; set; }
@@ -32,7 +32,7 @@ namespace HabitManager.Domain
         }
         public IReadOnlyList<CompletionRecord> History => _history;  // MI piedāvāja darīt šādi, lai ārpus klases neviens nevarētu izmainīt vēsturi
 
-        public Habit(string id, string userId, string title, string? description = null, Status? status = null, List<DayOfWeek>? periodicity = null, List<CompletionRecord>? history = null, DateTime? createdAt = null, DateTime? updatedAt = null)
+        public Habit(Guid id, string userId, string title, string? description = null, Status? status = null, List<DayOfWeek>? periodicity = null, List<CompletionRecord>? history = null, DateTime? createdAt = null, DateTime? updatedAt = null)
           // MI pievienoja null pie pēdējiem 6 parametriem, lai varētu nepadod tos konstruktorā
         {
             Id = id;
@@ -57,7 +57,7 @@ namespace HabitManager.Domain
                     throw new InvalidOperationException("You've already marked this habit as completed.");
             }
 
-            _history.Add(new CompletionRecord { HabitId = Id, CompletedAt = DateTime.Now });
+            _history.Add(new CompletionRecord(id: Guid.NewGuid(), habitId: Id, completedAt: DateTime.Now));
         }
     }
 }

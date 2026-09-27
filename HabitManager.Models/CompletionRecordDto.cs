@@ -5,7 +5,8 @@ using System.Text;
 namespace HabitManager.Models
 {
     public record CompletionRecordDto(
-        string HabitId,
+        Guid Id,
+        Guid HabitId,
         DateTime CompletedAt
     );
 }

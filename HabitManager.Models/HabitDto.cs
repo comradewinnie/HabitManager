@@ -6,7 +6,7 @@ using HabitManager.Domain;
 namespace HabitManager.Models
 {
     public record HabitDto(
-        string Id,
+        Guid Id,
         string UserId,  // tikai kamēr nav autentifikācijas
         string Title,
         string? Description,  // MI pateica, ka DTO, kas paredzēti lasīšanai vai attēlošanai, nevajag rakstīt null
