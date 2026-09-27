@@ -12,7 +12,7 @@ namespace HabitManager.Domain
         public string? Description { get; set; }
         public Status Status { get; set; }
         public List<DayOfWeek> Periodicity { get; set; }
-        private List<History> _history;
+        private List<CompletionRecord> _history;
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; set; }
 
@@ -30,25 +30,25 @@ namespace HabitManager.Domain
                 _title = value;
             }
         }
-        public IReadOnlyList<History> History => _history;  // MI piedāvāja darīt šādi, lai ārpus klases neviens nevarētu izmainīt vēsturi
+        public IReadOnlyList<CompletionRecord> History => _history;  // MI piedāvāja darīt šādi, lai ārpus klases neviens nevarētu izmainīt vēsturi
 
-        public Habit(string id, string userId, string title, string? description = null, Status? status = null, List<DayOfWeek>? periodicity = null, List<History>? history = null, DateTime? createdAt = null, DateTime? updatedAt = null)
+        public Habit(string id, string userId, string title, string? description = null, Status? status = null, List<DayOfWeek>? periodicity = null, List<CompletionRecord>? history = null, DateTime? createdAt = null, DateTime? updatedAt = null)
           // MI pievienoja null pie pēdējiem 6 parametriem, lai varētu nepadod tos konstruktorā
         {
             Id = id;
             UserId = userId;
             Title = title;
             Description = description;
-            Status = status ?? Status.ACTIVE;
+            Status = status ?? Status.Active;
             Periodicity = periodicity ?? Enum.GetValues<DayOfWeek>().ToList();  // MI piedāvāja izmantot Enum.GetValues<DayOfWeek>().ToList(), lai iegūtu visus DayOfWeek vērtības
-            _history = history ?? new List<History>();
+            _history = history ?? new List<CompletionRecord>();
             CreatedAt = createdAt ?? DateTime.Now;
             UpdatedAt = updatedAt ?? DateTime.Now;
         }
 
         public void MarkAsCompleted()
         {
-            if (Status == Status.ARCHIVED)
+            if (Status == Status.Archived)
                 throw new InvalidOperationException("Cannot mark an archived habit as completed.");  // MI piedāvāja šādu izņēmuma tipu
 
             foreach (var record in History)
@@ -57,7 +57,7 @@ namespace HabitManager.Domain
                     throw new InvalidOperationException("You've already marked this habit as completed.");
             }
 
-            _history.Add(new History { HabitId = Id, CompletedAt = DateTime.Now });
+            _history.Add(new CompletionRecord { HabitId = Id, CompletedAt = DateTime.Now });
         }
     }
 }
