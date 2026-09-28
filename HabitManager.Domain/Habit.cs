@@ -7,7 +7,7 @@ namespace HabitManager.Domain
     public class Habit
     {
         public Guid Id { get; init; }  // MI ieteica izmantot auto-implemented properties, ja nav papildu loģikas, un ar init, ja nevajadzēs tos mainīt
-        public string UserId { get; init; }
+        private string _userId;
         private string _title;  // izmantoju private field, jo ir papildu loģika
         public string? Description { get; set; }
         public Status Status { get; set; }
@@ -16,6 +16,20 @@ namespace HabitManager.Domain
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; set; }
 
+        public string UserId
+        {
+            get
+            {
+                return _userId;
+            }
+            init
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("User ID cannot be empty.");
+
+                _userId = value;
+            }
+        }
         public string Title
         {
             get

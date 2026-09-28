@@ -6,7 +6,23 @@ namespace HabitManager.Domain
 {
     public class User
     {
-        public string Id { get; set; }
+        private string _id;
+
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+            init
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("ID cannot be empty.");
+
+                _id = value;
+            }
+        }
+
         public User(string id)
         {
             Id = id;
