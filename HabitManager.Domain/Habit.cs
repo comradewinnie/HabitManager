@@ -59,5 +59,14 @@ namespace HabitManager.Domain
 
             _history.Add(new CompletionRecord(id: Guid.NewGuid(), habitId: Id, completedAt: DateTime.Now));
         }
+
+        public bool WasCompletedToday()
+        {
+            if (this.History.Any(record => record.CompletedAt.Date == DateTime.Today))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
