@@ -1,4 +1,4 @@
-﻿using HabitManager.Test;
+﻿using HabitManager.TestData;
 using HabitManager.Domain;
 
 class Program

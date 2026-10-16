@@ -1,6 +1,6 @@
 ﻿using HabitManager.Domain;
 
-namespace HabitManager.Test
+namespace HabitManager.TestData
 {
     public static class DataGenerator
     {
