@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace HabitManager.Domain
 {
@@ -46,18 +47,17 @@ namespace HabitManager.Domain
         }
         public IReadOnlyList<CompletionRecord> History => _history;  // MI piedāvāja darīt šādi, lai ārpus klases neviens nevarētu izmainīt vēsturi
 
-        public Habit(Guid id, string userId, string title, string? description = null, Status? status = null, List<DayOfWeek>? periodicity = null, List<CompletionRecord>? history = null, DateTime? createdAt = null, DateTime? updatedAt = null)
-          // MI pievienoja null pie pēdējiem 6 parametriem, lai varētu nepadod tos konstruktorā
+        public Habit(Guid id, string userId, string title, string? description, Status status, List<DayOfWeek> periodicity, IReadOnlyList<CompletionRecord> history, DateTime createdAt, DateTime updatedAt)
         {
             Id = id;
             UserId = userId;
             Title = title;
             Description = description;
-            Status = status ?? Status.Active;
-            Periodicity = periodicity ?? Enum.GetValues<DayOfWeek>().ToList();  // MI piedāvāja izmantot Enum.GetValues<DayOfWeek>().ToList(), lai iegūtu visus DayOfWeek vērtības
-            _history = history ?? new List<CompletionRecord>();
-            CreatedAt = createdAt ?? DateTime.Now;
-            UpdatedAt = updatedAt ?? DateTime.Now;
+            Status = status;
+            Periodicity = periodicity;
+            _history = history.ToList();
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
         }
 
         public void MarkAsCompleted()

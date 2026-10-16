@@ -1,9 +1,18 @@
 ﻿using HabitManager.Domain;
+using System.Text.Json;
 
 namespace HabitManager.TestData
 {
+    public class TestDataContainer  // konteineris JSON serializācijai
+    {
+        public List<User> Users { get; set; } = new();
+        public List<Habit> Habits { get; set; } = new();
+    }
+
     public static class DataGenerator
     {
+        private const string FileName = "TestData.json";
+        
         public static (List<User>, List<Habit>) GenerateTestData()
         {
             // Lietotāji
@@ -56,6 +65,9 @@ namespace HabitManager.TestData
                 id: Guid.Parse("1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d"),  // ievadīti konkrēti GUID, lai uzreiz piesaistītu izpildes ierakstus ieradumiem
                 userId: "demo-user-1",
                 title: "Learn Spanish",
+                description: null,
+                status: Status.Active,
+                periodicity: Enum.GetValues<DayOfWeek>().ToList(),  // MI piedāvāja izmantot Enum.GetValues<DayOfWeek>().ToList(), lai iegūtu visus DayOfWeek vērtības
                 history: h1history,
                 createdAt: new DateTime(2026, 09, 23, 12, 54, 41),
                 updatedAt: new DateTime(2026, 09, 23, 12, 54, 41)
@@ -68,6 +80,7 @@ namespace HabitManager.TestData
                 userId: "demo-user-2",
                 title: "Play piano",
                 description: "Only my favorite songs...",
+                status: Status.Active,
                 periodicity: new List<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday },
                 history: h2history,
                 createdAt: new DateTime(2026, 9, 27, 15, 46, 04),
@@ -78,7 +91,12 @@ namespace HabitManager.TestData
                 id: Guid.Parse("4c3b2a1e-0f9e-4d8c-b7a6-5f4e3d2c1b0a"),
                 userId: "demo-user-1",
                 title: "Read books",
-                description: "I created this habit right now!!"
+                description: "I created this habit right now!!",
+                status: Status.Active,
+                periodicity: Enum.GetValues<DayOfWeek>().ToList(),
+                history: new List<CompletionRecord>(),
+                createdAt: DateTime.Now,
+                updatedAt: DateTime.Now
             );
 
             // Arhivēts ieradums
@@ -96,6 +114,35 @@ namespace HabitManager.TestData
 
             return (new List<User> { u1, u2 }, new List<Habit> { h1, h2, h3, h4 });  // MI ieteica, kā padot konsoles lietotnē funkcijā radītus objektus
         }
-    }
 
+        public static void SaveTestDataToJson(List<User> users, List<Habit> habits)
+        {
+            TestDataContainer container = new TestDataContainer
+            {
+                Users = users,
+                Habits = habits
+            };
+
+            string jsonString = JsonSerializer.Serialize(container);
+            File.WriteAllText(FileName, jsonString);
+        }
+
+        private static void CreateInitialJson()
+        {
+            var (users, habits) = GenerateTestData();
+            SaveTestDataToJson(users, habits);
+        }
+        
+        public static (List<User>, List<Habit>) LoadTestDataFromJson()
+        {
+            if (!File.Exists(FileName))
+            {
+                CreateInitialJson();
+            }
+
+            string jsonString = File.ReadAllText(FileName);
+            TestDataContainer container = JsonSerializer.Deserialize<TestDataContainer>(jsonString);
+            return (container.Users, container.Habits);
+        }        
+    }
 }

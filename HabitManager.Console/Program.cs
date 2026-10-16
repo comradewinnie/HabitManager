@@ -7,7 +7,7 @@ class Program
     {
         try
         {
-            var (users, habits) = DataGenerator.GenerateTestData();  // MI ieteica, kā iegūt funkcija radītus objektus konsoles lietotnē
+            var (users, habits) = DataGenerator.LoadTestDataFromJson();  // MI ieteica, kā iegūt funkcija radītus objektus konsoles lietotnē
 
             int habitCount = 0;
 
