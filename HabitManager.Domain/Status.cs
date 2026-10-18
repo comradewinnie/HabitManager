@@ -6,7 +6,7 @@ namespace HabitManager.Domain
 {
     public enum Status
     {
-        Archived,
-        Active
+        Active,
+        Archived
     }
 }

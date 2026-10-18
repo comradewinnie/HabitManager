@@ -60,18 +60,18 @@ namespace HabitManager.Domain
             UpdatedAt = updatedAt;
         }
 
-        public void MarkAsCompleted()
+        public void MarkAsComplete(DateTime completionDate)
         {
             if (Status == Status.Archived)
                 throw new InvalidOperationException("Cannot mark an archived habit as completed.");  // MI piedāvāja šādu izņēmuma tipu
 
             foreach (var record in History)
             {
-                if (record.CompletedAt.Date == DateTime.Now.Date)
-                    throw new InvalidOperationException("You've already marked this habit as completed.");
+                if (record.CompletedAt.Date == completionDate.Date)
+                    throw new InvalidOperationException("You've already marked this habit as completed for this day.");
             }
 
-            _history.Add(new CompletionRecord(id: Guid.NewGuid(), habitId: Id, completedAt: DateTime.Now));
+            _history.Add(new CompletionRecord(id: Guid.NewGuid(), habitId: Id, completedAt: completionDate));
         }
 
         public bool WasCompletedToday()

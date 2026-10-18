@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HabitManager.Models
 {
-    public record MarkHabitAsCompletedDto(
+    public record MarkHabitAsCompleteDto(
         Guid HabitId
     );
 }

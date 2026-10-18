@@ -39,7 +39,7 @@ class Program
 
                         Console.WriteLine($"Periodicity: {string.Join(", ", habit.Periodicity)}");
                         Console.WriteLine($"Status: {habit.Status}");
-                        Console.WriteLine($"Created at: {habit.CreatedAt}");
+                        Console.WriteLine($"Created At: {habit.CreatedAt}");
 
                         string wasCompletedToday = (habit.WasCompletedToday()) ? "YES" : "no";
                         Console.WriteLine($"Was completed today: {wasCompletedToday}\n");
