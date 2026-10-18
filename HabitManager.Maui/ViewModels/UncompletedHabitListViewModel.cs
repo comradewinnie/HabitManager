@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using HabitManager.Domain;
 using HabitManager.Maui.Data;
+using HabitManager.Maui.Views;
 using System.Collections.ObjectModel;
 
 namespace HabitManager.Maui.ViewModels
@@ -14,7 +15,7 @@ namespace HabitManager.Maui.ViewModels
         [RelayCommand]
         public async Task AddHabitAsync()
         {
-
+            await Shell.Current.GoToAsync(nameof(HabitFormPage));
         }
 
         public override void LoadHabits()

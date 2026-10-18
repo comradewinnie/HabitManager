@@ -23,10 +23,12 @@ namespace HabitManager.Maui
             builder.Services.AddTransient<UncompletedHabitListViewModel>();
             builder.Services.AddTransient<CompletedHabitListViewModel>();
             builder.Services.AddTransient<ArchivedHabitListViewModel>();
+            builder.Services.AddTransient<HabitFormViewModel>();
 
             builder.Services.AddTransient<UncompletedHabitListPage>();
             builder.Services.AddTransient<CompletedHabitListPage>();
             builder.Services.AddTransient<ArchivedHabitListPage>();
+            builder.Services.AddTransient<HabitFormPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

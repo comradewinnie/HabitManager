@@ -86,6 +86,9 @@
 		<Compile Update="Views\UncompletedHabitListPage.xaml.cs">
 			<DependentUpon>UncompletedHabitListPage.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Views\HabitFormPage.xaml.cs">
+			<DependentUpon>HabitFormPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -96,6 +99,9 @@
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\UncompletedHabitListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\HabitFormPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>

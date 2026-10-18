@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HabitManager.Maui.Views.HabitFormPage"
+             Title="Habit Form"
+             Shell.TabBarIsVisible="False">
+    <Grid RowDefinitions="*, Auto" Padding="10">
+        <ScrollView Grid.Row="0"> <!-- MI ieteica izmantot ScrollView, ja saturs var neietipst ekrānā -->
+            <VerticalStackLayout Spacing="15">
+                <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                    <Label Text="Title:" Grid.Row="0" Grid.Column="0" />
+                    <Entry Text="{Binding Title}" FontAttributes="Bold" FontSize="22" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" />
+                    <Label Text="Description:" Grid.Row="1" Grid.Column="0" />
+                    <Editor Text="{Binding Description}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" />
+                    <Label Text="Periodicity:" Grid.Row="3" Grid.Column="0" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Periodicity}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout>
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                                    <Label Text="{Binding Title}" VerticalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Grid Grid.Row="1" ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,10,0,0" HorizontalOptions="Fill"> <!-- MI pateica, kā izstiept pogu pilnā platumā -->
+            <Button Text="Save" Command="{Binding SaveCommand}" Grid.Column="0" />
+            <Button Text="Cancel" Command="{Binding CancelCommand}" Grid.Column="1" />
+        </Grid>
+    </Grid>
+</ContentPage>

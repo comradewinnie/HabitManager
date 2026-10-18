@@ -12,6 +12,11 @@ Projekta izstrādes laikā tika izmantots:
 8) Uzzināt, kā izvadīt lietotājam uznirstošo logu ar ievadi, un saģenerēt atbilstošo kodu.
 9) Uzzināt, kā salidzīnāt saņemtu uznirstošajā logā datumu ar tekošu.
 10) Uzzināt, kā rādīt skatam piesaistītā objekta laukus ar kādu nosacījumu vai formatēšanu (converters), un saģenerēt atbilstošo kodu.
+11) Uzzināt, kā atvērt lapu virs TabBar.
+12) Uzzināt, kā sarakstu no enum vērtībām attēlot checkboxos, un saģenerēt atbilstošo kodu.
+13) Saprast, kādos gadījumos labāk atvērt jaunu lapu ar GoToAsync, padodot objektu vārdnicā ar QueryProperty un On...Changed.
+14) Uzlabot lapas dizaina kvalitāti atsevišķos failos (norādīts ar komentāriem šajos failos).
+15) Saprast, kas ir Auto un * XAMLā.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 

@@ -7,6 +7,8 @@ namespace HabitManager.Maui
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute(nameof(HabitFormPage), typeof(HabitFormPage));
         }
     }
 }
