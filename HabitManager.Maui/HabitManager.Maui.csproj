@@ -75,4 +75,28 @@
 		<ProjectReference Include="..\HabitManager.Domain\HabitManager.Domain.csproj" />
 		<ProjectReference Include="..\HabitManager.TestData\HabitManager.TestData.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Views\ArchivedHabitListPage.xaml.cs">
+			<DependentUpon>ArchivedHabitListPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\CompletedHabitListPage.xaml.cs">
+			<DependentUpon>CompletedHabitListPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\UncompletedHabitListPage.xaml.cs">
+			<DependentUpon>UncompletedHabitListPage.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiXaml Update="Views\ArchivedHabitListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\CompletedHabitListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\UncompletedHabitListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+	</ItemGroup>
 </Project>

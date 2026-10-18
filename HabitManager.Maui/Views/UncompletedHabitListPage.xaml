@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HabitManager.Maui.Views.UncompletedHabitListPage"
+             x:Name="UncompletedPage"
+             Title="Habits">
+    <Grid RowDefinitions="Auto, *" Padding="10">
+        <Button Grid.Row="0" Text="Add Habit" Command="{Binding AddHabitCommand}" Margin="0,0,0,10" />
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Habits}"> <!-- MI ieteica, kā salabot problēmu ar neredzamiem ieradumiem -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray" CornerRadius="5" Padding="10" Margin="5">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" />
+                            <Label Text="{Binding Description}" TextColor="Gray" />
+                            <Label Text="{Binding Periodicity}" />
+                            <Label Text="{Binding Status}" />
+                            <Label Text="{Binding UpdatedAt, StringFormat='Updated At: {0:dd.MM.yyyy}'}" FontSize="12" />
+
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,5,0,0">
+                                <Button Grid.Column="0" Text="Mark as Complete" Command="{Binding Source={x:Reference UncompletedPage}, Path=BindingContext.MarkHabitAsCompleteCommand}" CommandParameter="{Binding .}" />
+                                <Button Grid.Column="1" Text="Show Details" Command="{Binding Source={x:Reference UncompletedPage}, Path=BindingContext.ShowHabitDetailsCommand}" CommandParameter="{Binding .}" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

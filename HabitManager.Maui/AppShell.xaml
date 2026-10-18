@@ -6,4 +6,18 @@
     xmlns:local="clr-namespace:HabitManager.Maui"
     xmlns:views="clr-namespace:HabitManager.Maui.Views"
     Title="HabitManager.Maui">
+
+    <TabBar>
+        <Tab Title="Uncompleted">
+            <ShellContent ContentTemplate="{DataTemplate views:UncompletedHabitListPage}" />
+        </Tab>
+
+        <Tab Title="Completed Today">
+            <ShellContent ContentTemplate="{DataTemplate views:CompletedHabitListPage}" />
+        </Tab>
+
+        <Tab Title="Archived">
+            <ShellContent ContentTemplate="{DataTemplate views:ArchivedHabitListPage}" />
+        </Tab>
+    </TabBar>
 </Shell>

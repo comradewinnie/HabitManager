@@ -8,6 +8,9 @@ Projekta izstrādes laikā tika izmantots:
 4) Uzzināt, kā padod JSON serializātoram divus sarakstus uzreiz.
 5) Saprast, ka JSON serializācijai vajadzīgs konstruktors, kur visu parametru tipi un nosaukumi sakrīt ar publisku īpašību tipiem un nosaukumiem klasē.
 6) Uzzināt, kā viewmodeļos iegūt lietotāja ID.
+7) Uzzināt, kā izveidot vienu lapu ar trīs cilnēm.
+8) Uzzināt, kā izvadīt lietotājam uznirstošo logu ar ievadi.
+9) Uzzināt, kā salidzīnāt saņemtu uznirstošajā logā datumu ar tekošu.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
