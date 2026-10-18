@@ -3,7 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HabitManager.Maui.Views.CompletedHabitListPage"
              x:Name="CompletedPage"
-             Title="Habits">
+             Title="Habits"
+             xmlns:converters="clr-namespace:HabitManager.Maui.Converters">
+    <ContentPage.Resources>
+        <converters:PeriodicityConverter x:Key="PeriodicityConverter" />
+        <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+    </ContentPage.Resources>
     <Grid RowDefinitions="Auto, *" Padding="10">
         <CollectionView Grid.Row="1" ItemsSource="{Binding Habits}">
             <CollectionView.ItemTemplate>
@@ -11,8 +16,8 @@
                     <Frame BorderColor="LightGray" CornerRadius="5" Padding="10" Margin="5">
                         <VerticalStackLayout Spacing="4">
                             <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" />
-                            <Label Text="{Binding Description}" TextColor="Gray" />
-                            <Label Text="{Binding Periodicity}" />
+                            <Label Text="{Binding Description}" TextColor="Gray" IsVisible="{Binding Description, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
+                            <Label Text="{Binding Periodicity, Converter={StaticResource PeriodicityConverter}}" />
                             <Label Text="{Binding Status}" />
                             <Label Text="{Binding UpdatedAt, StringFormat='Updated At: {0:dd.MM.yyyy}'}" FontSize="12" />
 
