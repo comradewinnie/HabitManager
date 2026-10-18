@@ -4,6 +4,7 @@
   </Folder>
   <Project Path="HabitManager.Console/HabitManager.Console.csproj" Id="7e5d3dc7-daef-445c-a5d4-39984cf2fe0e" />
   <Project Path="HabitManager.Domain/HabitManager.Domain.csproj" />
+  <Project Path="HabitManager.Maui/HabitManager.Maui.csproj" Id="19bb2d01-7f76-442f-a3b0-2459a91a0ef5" />
   <Project Path="HabitManager.Models/HabitManager.Models.csproj" />
   <Project Path="HabitManager.TestData/HabitManager.TestData.csproj" Id="28b8e764-7b62-4584-b2be-39ccbddb3a57" />
 </Solution>

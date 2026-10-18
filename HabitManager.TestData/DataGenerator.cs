@@ -11,9 +11,9 @@ namespace HabitManager.TestData
 
     public static class DataGenerator
     {
-        private const string FileName = "TestData.json";
-        
-        public static (List<User>, List<Habit>) GenerateTestData()
+        public static string FileName { get; set; }
+
+        private static (List<User>, List<Habit>) GenerateTestData()
         {
             // Lietotāji
             User u1 = new User("demo-user-1");
@@ -73,7 +73,7 @@ namespace HabitManager.TestData
                 updatedAt: new DateTime(2026, 09, 23, 12, 54, 41)
             );
 
-            h1.MarkAsCompleted();
+            h1.MarkAsComplete(DateTime.Now);
 
             Habit h2 = new Habit(
                 id: Guid.Parse("7f8e9d0c-1b2a-4f3e-9d8c-7b6a5f4e3d2c"),
@@ -143,6 +143,58 @@ namespace HabitManager.TestData
             string jsonString = File.ReadAllText(FileName);
             TestDataContainer container = JsonSerializer.Deserialize<TestDataContainer>(jsonString);
             return (container.Users, container.Habits);
-        }        
+        }  
+        
+        public static bool AddTestHabit(Habit hb)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
+        {
+            var (users, habits) = LoadTestDataFromJson();
+            habits.Add(hb);
+            SaveTestDataToJson(users, habits);
+            return true;
+        }
+
+        public static bool DeleteTestHabit(Habit hb)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
+        {
+            var (users, habits) = LoadTestDataFromJson();
+
+            var itemToRemove = habits.FirstOrDefault(h => h.Id == hb.Id);  // MI pateica, kā sameklēt objektu pēc īpašības vērtības
+            if (itemToRemove != null)
+            {
+                habits.Remove(itemToRemove);
+                SaveTestDataToJson(users, habits);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static IEnumerable<Habit> GetUserTestHabits(string userId)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
+        {
+            var (users, habits) = LoadTestDataFromJson();
+            var userHabits = habits.Where(h => h.UserId == userId);
+            return userHabits;
+        }
+
+        public static Habit GetTestHabitById(Guid id)
+        {
+            var (users, habits) = LoadTestDataFromJson();
+            var hb = habits.FirstOrDefault(h => h.Id == id);
+            return hb;
+        }
+
+        public static bool UpdateTestHabit(Habit hb)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
+        {
+            var (users, habits) = LoadTestDataFromJson();
+
+            int index = habits.FindIndex(h => h.Id == hb.Id);  // MI pateica, kā sameklēt objekta indeksu pēc īpašības vērtības
+            if (index != -1)
+            {
+                habits[index] = hb;
+                SaveTestDataToJson(users, habits);
+                return true;
+            }
+
+            return false;
+        }
     }
 }
