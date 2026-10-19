@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace HabitManager.TestData
 {
-    public class TestDataContainer  // konteineris JSON serializācijai
+    public class TestDataContainer  // konteineris JSON serializācijai, kuru saģenerēja MI
     {
         public List<User> Users { get; set; } = new();
         public List<Habit> Habits { get; set; } = new();

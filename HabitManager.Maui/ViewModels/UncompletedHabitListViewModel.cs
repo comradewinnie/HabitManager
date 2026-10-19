@@ -31,7 +31,7 @@ namespace HabitManager.Maui.ViewModels
             if (hb == null)
                 return;
 
-            string result = await Shell.Current.DisplayPromptAsync(
+            string result = await Shell.Current.DisplayPromptAsync(  // saģenerēja MI
                 title: "Complete Habit",
                 message: "Enter completion date:",
                 accept: "OK",

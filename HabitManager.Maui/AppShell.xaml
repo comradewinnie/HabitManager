@@ -7,7 +7,7 @@
     xmlns:views="clr-namespace:HabitManager.Maui.Views"
     Title="HabitManager.Maui">
 
-    <TabBar>
+    <TabBar>  <!-- saģenerēja MI -->
         <Tab Title="Uncompleted">
             <ShellContent ContentTemplate="{DataTemplate views:UncompletedHabitListPage}" />
         </Tab>

@@ -2,7 +2,7 @@
 
 namespace HabitManager.Maui.Converters
 {
-    public class IsNotNullOrEmptyConverter : IValueConverter
+    public class IsNotNullOrEmptyConverter : IValueConverter  // saģenerēja MI
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
