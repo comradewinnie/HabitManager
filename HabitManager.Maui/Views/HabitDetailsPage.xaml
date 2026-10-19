@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HabitManager.Maui.Views.HabitDetailsPage"
+             x:Name="DetailsPage"
+             Title="Habit Details"
+             Shell.TabBarIsVisible="False"
+             xmlns:converters="clr-namespace:HabitManager.Maui.Converters">
+    <ContentPage.Resources>
+        <converters:PeriodicityConverter x:Key="PeriodicityConverter" />
+        <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+    </ContentPage.Resources>
+    <ScrollView>
+        <VerticalStackLayout Spacing="4" Padding="10">
+            <Label Text="{Binding Hb.Title}" FontAttributes="Bold" FontSize="22" />
+            <Label Text="{Binding Hb.Description}" TextColor="Gray" IsVisible="{Binding Hb.Description, Converter={StaticResource IsNotNullOrEmptyConverter}}" />
+            <Label Text="{Binding Hb.Periodicity, Converter={StaticResource PeriodicityConverter}}" />
+            <Label Text="{Binding Hb.Status}" />
+            <Label Text="{Binding Hb.CreatedAt, StringFormat='Created At: {0:dd.MM.yyyy}'}" FontSize="12" />
+            <Label Text="{Binding Hb.UpdatedAt, StringFormat='Updated At: {0:dd.MM.yyyy}'}" FontSize="12" />
+            <Grid RowDefinitions="Auto, *, *" RowSpacing="10" Margin="0,5,0,0">
+                <Button Grid.Row="0" Text="{Binding Source={x:Reference DetailsPage}, Path=BindingContext.ArchiveButtonText}" Command="{Binding Source={x:Reference DetailsPage}, Path=BindingContext.ToggleHabitStatusCommand}" CommandParameter="{Binding .}" />
+                <Button Grid.Row="1" Text="Edit" Command="{Binding Source={x:Reference DetailsPage}, Path=BindingContext.EditHabitCommand}" CommandParameter="{Binding .}" />
+                <Button Grid.Row="2" Text="Delete" Command="{Binding Source={x:Reference DetailsPage}, Path=BindingContext.DeleteHabitCommand}" CommandParameter="{Binding .}" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

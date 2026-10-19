@@ -9,6 +9,7 @@ namespace HabitManager.Maui
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(HabitFormPage), typeof(HabitFormPage));
+            Routing.RegisterRoute(nameof(HabitDetailsPage), typeof(HabitDetailsPage));
         }
     }
 }

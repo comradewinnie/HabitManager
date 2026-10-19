@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using HabitManager.Domain;
 using HabitManager.Maui.Data;
+using HabitManager.Maui.Views;
 using System.Collections.ObjectModel;
 
 namespace HabitManager.Maui.ViewModels
@@ -26,7 +27,13 @@ namespace HabitManager.Maui.ViewModels
         [RelayCommand]
         public async Task ShowHabitDetailsAsync(Habit hb)
         {
+            if (hb is null)
+                return;
 
+            await Shell.Current.GoToAsync($"{nameof(HabitDetailsPage)}", new Dictionary<string, object>
+            {
+                { "HabitToShow", hb }
+            });
         }
     }
 }

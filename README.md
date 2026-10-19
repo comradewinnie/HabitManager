@@ -1,3 +1,5 @@
+Rādās tikai savi (demo-user-1) ieradumi. Testēts uz Android.
+
 Projekta izstrādes laikā tika izmantots:
 
 - MI rīks Gemini šādām vajadzībām:
@@ -17,6 +19,7 @@ Projekta izstrādes laikā tika izmantots:
 13) Saprast, kādos gadījumos labāk atvērt jaunu lapu ar GoToAsync, padodot objektu vārdnicā ar QueryProperty un On...Changed.
 14) Uzlabot lapas dizaina kvalitāti atsevišķos failos (norādīts ar komentāriem šajos failos).
 15) Saprast, kas ir Auto un * XAMLā.
+16) Uzzināt, kā paziņot UI, ka izmainījās pogas teksts.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
