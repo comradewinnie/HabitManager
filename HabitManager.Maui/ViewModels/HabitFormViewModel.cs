@@ -49,33 +49,40 @@ namespace HabitManager.Maui.ViewModels
         [RelayCommand]
         private async Task SaveAsync()
         {
-            var periodicity = PeriodicityHelper.ToEnums(Periodicity);
-
-            if (Hb is null)
+            try
             {
-                Habit hb = new Habit(
-                    id: Guid.NewGuid(),
-                    userId: _us.GetCurrentUserId(),
-                    title: Title,
-                    description: Description,
-                    status: Status.Active,
-                    periodicity: periodicity,
-                    history: new List<CompletionRecord>(),
-                    createdAt: DateTime.Now,
-                    updatedAt: DateTime.Now
-                );
-                _hp.AddHabit(hb);
-            }
-            else
-            {
-                Hb.Title = Title;
-                Hb.Description = Description;
-                Hb.Periodicity = periodicity;
-                Hb.UpdatedAt = DateTime.Now;
-                _hp.UpdateHabit(Hb);
-            }
+                var periodicity = PeriodicityHelper.ToEnums(Periodicity);
 
-            await Shell.Current.GoToAsync("..");
+                if (Hb is null)
+                {
+                    Habit hb = new Habit(
+                        id: Guid.NewGuid(),
+                        userId: _us.GetCurrentUserId(),
+                        title: Title,
+                        description: Description,
+                        status: Status.Active,
+                        periodicity: periodicity,
+                        history: new List<CompletionRecord>(),
+                        createdAt: DateTime.Now,
+                        updatedAt: DateTime.Now
+                    );
+                    _hp.AddHabit(hb);
+                }
+                else
+                {
+                    Hb.Title = Title;
+                    Hb.Description = Description;
+                    Hb.Periodicity = periodicity;
+                    Hb.UpdatedAt = DateTime.Now;
+                    _hp.UpdateHabit(Hb);
+                }
+
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (ArgumentException ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Validation Error", ex.Message, "OK");
+            }
         }
 
         [RelayCommand]

@@ -20,6 +20,7 @@ Projekta izstrādes laikā tika izmantots:
 14) Uzlabot lapas dizaina kvalitāti atsevišķos failos (norādīts ar komentāriem šajos failos).
 15) Saprast, kas ir Auto un * XAMLā.
 16) Uzzināt, kā paziņot UI, ka izmainījās pogas teksts.
+17) Uzzināt, kur pievienot try-catch bloku, lai MAUI lietotne rādītu kļūdu paziņojumus.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
