@@ -24,16 +24,8 @@ namespace HabitManager.Maui.ViewModels
             if (hb == null)
                 return;
 
-            if (hb.Status == Status.Active)
-            {
-                hb.Status = Status.Archived;
-                _hp.UpdateHabit(hb);
-            }
-            else
-            {
-                hb.Status = Status.Active;
-                _hp.UpdateHabit(hb);
-            }
+            hb.ToggleHabitStatus();
+            _hp.UpdateHabit(hb);
 
             if (Habits.Contains(hb))
                 Habits.Remove(hb);

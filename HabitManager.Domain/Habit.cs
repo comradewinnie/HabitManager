@@ -76,11 +76,23 @@ namespace HabitManager.Domain
 
         public bool WasCompletedToday()
         {
-            if (this.History.Any(record => record.CompletedAt.Date == DateTime.Today))
+            if (History.Any(record => record.CompletedAt.Date == DateTime.Today))
             {
                 return true;
             }
             return false;
+        }
+
+        public void ToggleHabitStatus()
+        {
+            if (Status == Status.Active)
+            {
+                Status = Status.Archived;
+            }
+            else
+            {
+                Status = Status.Active;
+            }
         }
     }
 }

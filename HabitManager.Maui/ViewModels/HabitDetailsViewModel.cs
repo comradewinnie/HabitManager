@@ -37,16 +37,8 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (Hb == null)
             return;
 
-        if (Hb.Status == Status.Active)
-        {
-            Hb.Status = Status.Archived;
-            _hp.UpdateHabit(Hb);
-        }
-        else
-        {
-            Hb.Status = Status.Active;
-            _hp.UpdateHabit(Hb);
-        }
+        Hb.ToggleHabitStatus();
+        _hp.UpdateHabit(Hb);
 
         OnPropertyChanged(nameof(Hb));
         OnPropertyChanged(nameof(ArchiveButtonText));
