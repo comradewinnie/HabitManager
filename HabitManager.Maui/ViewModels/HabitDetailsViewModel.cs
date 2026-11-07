@@ -59,7 +59,7 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (!isConfirmed)
             return;
 
-        _hp.DeleteHabit(Hb);
+        _hp.DeleteHabit(Hb.Id);
 
         await Shell.Current.GoToAsync("..");
     }
@@ -69,7 +69,7 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (Hb == null)
             return;
 
-        var reloadedHabit = _hp.GetHabitById(Hb.Id);
+        var reloadedHabit = _hp.GetHabit(Hb.Id);
         if (reloadedHabit != null)
         {
             Hb = reloadedHabit;

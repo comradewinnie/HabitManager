@@ -11,7 +11,7 @@ namespace HabitManager.TestData
 
     public static class DataGenerator
     {
-        public static string FileName { get; set; }
+        public static string FileName { get; set; } = Path.Combine(AppContext.BaseDirectory, "TestData.json");  // MI ieteica, kur labāk glabāt failu
 
         private static (List<User>, List<Habit>) GenerateTestData()
         {
@@ -153,11 +153,11 @@ namespace HabitManager.TestData
             return true;
         }
 
-        public static bool DeleteTestHabit(Habit hb)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
+        public static bool DeleteTestHabit(Guid id)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
         {
             var (users, habits) = LoadTestDataFromJson();
 
-            var itemToRemove = habits.FirstOrDefault(h => h.Id == hb.Id);  // MI pateica, kā sameklēt objektu pēc īpašības vērtības
+            var itemToRemove = habits.FirstOrDefault(h => h.Id == id);  // MI pateica, kā sameklēt objektu pēc īpašības vērtības
             if (itemToRemove != null)
             {
                 habits.Remove(itemToRemove);
@@ -175,7 +175,7 @@ namespace HabitManager.TestData
             return userHabits;
         }
 
-        public static Habit GetTestHabitById(Guid id)
+        public static Habit GetTestHabit(Guid id)
         {
             var (users, habits) = LoadTestDataFromJson();
             var hb = habits.FirstOrDefault(h => h.Id == id);

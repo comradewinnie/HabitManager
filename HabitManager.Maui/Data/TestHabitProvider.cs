@@ -15,14 +15,14 @@ namespace HabitManager.Maui.Data
             return DataGenerator.AddTestHabit(hb);
         }
 
-        public bool DeleteHabit(Habit hb)
+        public bool DeleteHabit(Guid id)
         {
-            return DataGenerator.DeleteTestHabit(hb);
+            return DataGenerator.DeleteTestHabit(id);
         }
 
-        public Habit GetHabitById(Guid id)
+        public Habit GetHabit(Guid id)
         {
-            return DataGenerator.GetTestHabitById(id);
+            return DataGenerator.GetTestHabit(id);
         }
 
         public IEnumerable<Habit> GetUserHabits(string userId)
