@@ -94,5 +94,13 @@ namespace HabitManager.Domain
                 Status = Status.Active;
             }
         }
+
+        public void UpdateDetails(string title, string? description, List<DayOfWeek> periodicity)
+        {
+            Title = title;
+            Description = description;
+            Periodicity = periodicity;
+            UpdatedAt = DateTime.Now;
+        }
     }
 }

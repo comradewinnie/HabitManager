@@ -132,7 +132,7 @@ namespace HabitManager.TestData
             var (users, habits) = GenerateTestData();
             SaveTestDataToJson(users, habits);
         }
-        
+
         public static (List<User>, List<Habit>) LoadTestDataFromJson()
         {
             if (!File.Exists(FileName))
@@ -143,8 +143,8 @@ namespace HabitManager.TestData
             string jsonString = File.ReadAllText(FileName);
             TestDataContainer container = JsonSerializer.Deserialize<TestDataContainer>(jsonString);
             return (container.Users, container.Habits);
-        }  
-        
+        }
+
         public static bool AddTestHabit(Habit hb)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
         {
             var (users, habits) = LoadTestDataFromJson();
@@ -168,14 +168,19 @@ namespace HabitManager.TestData
             return false;
         }
 
-        public static IEnumerable<Habit> GetUserTestHabits(string userId)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
+        public static IEnumerable<Habit>? GetUserTestHabits(string userId)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
         {
             var (users, habits) = LoadTestDataFromJson();
-            var userHabits = habits.Where(h => h.UserId == userId);
+
+            var userExists = users.Any(u => u.Id == userId);
+            if (!userExists)
+                return null;
+
+            var userHabits = habits.Where(h => h.UserId == userId).ToList();
             return userHabits;
         }
 
-        public static Habit GetTestHabit(Guid id)
+        public static Habit? GetTestHabit(Guid id)
         {
             var (users, habits) = LoadTestDataFromJson();
             var hb = habits.FirstOrDefault(h => h.Id == id);
@@ -195,6 +200,14 @@ namespace HabitManager.TestData
             }
 
             return false;
+        }
+
+        public static IReadOnlyList<CompletionRecord>? GetTestHabitCompletionHistory(Guid id)
+        {
+            var (users, habits) = LoadTestDataFromJson();
+
+            var hb = habits.FirstOrDefault(h => h.Id == id);
+            return hb?.History;
         }
     }
 }

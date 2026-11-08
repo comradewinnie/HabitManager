@@ -2,6 +2,6 @@
 {
     public interface IUserService
     {
-        string GetCurrentUserId();
+        Task<string> GetCurrentUserIdAsync();
     }
 }

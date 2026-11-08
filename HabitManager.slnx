@@ -8,6 +8,7 @@
     <Deploy Solution="Debug|*" />
   </Project>
   <Project Path="HabitManager.Models/HabitManager.Models.csproj" />
+  <Project Path="HabitManager.Shared/HabitManager.Shared.csproj" Id="84c2c55b-915a-438e-8fb0-99bfebfd1fa1" />
   <Project Path="HabitManager.TestData/HabitManager.TestData.csproj" Id="28b8e764-7b62-4584-b2be-39ccbddb3a57" />
   <Project Path="HabitManager.WebApi/HabitManager.WebApi.csproj" Id="1bc3386f-cba8-46db-98b5-8496d06a31cb" />
 </Solution>

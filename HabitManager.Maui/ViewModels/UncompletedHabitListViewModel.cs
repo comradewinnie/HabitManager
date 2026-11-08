@@ -2,6 +2,8 @@
 using HabitManager.Domain;
 using HabitManager.Maui.Data;
 using HabitManager.Maui.Views;
+using HabitManager.Models;
+using HabitManager.Shared.Mappings;
 using System.Collections.ObjectModel;
 
 namespace HabitManager.Maui.ViewModels
@@ -18,10 +20,19 @@ namespace HabitManager.Maui.ViewModels
             await Shell.Current.GoToAsync(nameof(HabitFormPage));
         }
 
-        public override void LoadHabits()
+        [RelayCommand]
+        public override async Task LoadHabitsAsync()
         {
-            var allHabits = _hp.GetUserHabits(_us.GetCurrentUserId());
-            var uncompletedHabits = allHabits.Where(h => h.Status != Status.Archived && !h.WasCompletedToday());
+            var userId = await _us.GetCurrentUserIdAsync();
+            var allHabits = await _hp.GetUserHabitsAsync(userId);
+
+            if (allHabits == null)
+            {
+                Habits.Clear();
+                return;
+            }
+
+            var uncompletedHabits = allHabits.Select(hb => hb.ToDomain()).Where(h => h.Status != Status.Archived && !h.WasCompletedToday()).ToList();
             Habits = new ObservableCollection<Habit>(uncompletedHabits);
         }
 
@@ -46,12 +57,24 @@ namespace HabitManager.Maui.ViewModels
 
                 if (DateTime.TryParse(result, out DateTime selectedDate))
                 {
-                    hb.MarkAsComplete(selectedDate);
-                    _hp.UpdateHabit(hb);
-
-                    if (selectedDate == DateTime.Now.Date && Habits.Contains(hb))
+                    var dto = new MarkHabitAsCompleteDto(
+                        HabitId: hb.Id,
+                        CompletedAt: selectedDate
+                    );
+                    var success = await _hp.MarkAsCompleteAsync(dto);
+                    if (success)
                     {
-                        Habits.Remove(hb);  // MI atgādināja, ka vajag noņemt objektu no observable saraksta, lai saraksts uzreiz atjauninātos
+                        hb.MarkAsComplete(selectedDate);
+                        
+                        if (selectedDate.Date == DateTime.Now.Date)
+                        {
+                            Habits.Remove(hb);  // MI atgādināja, ka vajag noņemt objektu no observable saraksta, lai saraksts uzreiz atjauninātos
+                        }
+                    }
+                    else  // ja nav šāda ieraduma vai nav pieejams serveris
+                    {
+                        await Shell.Current.DisplayAlertAsync("Server Error", "Failed to mark habit as complete.", "OK");
+                        return;
                     }
                 }
             }

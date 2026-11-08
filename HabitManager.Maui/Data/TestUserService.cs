@@ -4,9 +4,9 @@
     {
         private readonly string _testUserId = "demo-user-1";
 
-        public string GetCurrentUserId()
+        public Task<string> GetCurrentUserIdAsync()
         {
-            return _testUserId;
+            return Task.FromResult(_testUserId);
         }
     }
 }

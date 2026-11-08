@@ -17,6 +17,7 @@ public partial class UncompletedHabitListPage : ContentPage   // nokopēts no "U
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _vm.LoadHabits();
+        if (BindingContext is UncompletedHabitListViewModel vm)
+            await vm.LoadHabitsAsync();
     }
 }

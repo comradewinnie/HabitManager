@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using HabitManager.Domain;
 using HabitManager.Maui.Data;
 using HabitManager.Maui.Views;
+using HabitManager.Shared.Mappings;
 
 [QueryProperty(nameof(Hb), "HabitToShow")]
 public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc "UzdevumuParvaldnieks" piemēra
@@ -37,11 +38,19 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (Hb == null)
             return;
 
-        Hb.ToggleHabitStatus();
-        _hp.UpdateHabit(Hb);
+        var success = await _hp.ToggleHabitStatusAsync(Hb.Id);
 
-        OnPropertyChanged(nameof(Hb));
-        OnPropertyChanged(nameof(ArchiveButtonText));
+        if (success)
+        {
+            Hb.ToggleHabitStatus(); // MI pateica, ka drīkst mainīt statusu lokāli tikai pēc success no servera
+            OnPropertyChanged(nameof(Hb));
+            OnPropertyChanged(nameof(ArchiveButtonText));
+        }
+        else
+        {
+            await Shell.Current.DisplayAlertAsync("Server Error", "Failed to change status of the habit.", "OK");
+            return;
+        }
     }
 
     [RelayCommand]
@@ -59,9 +68,17 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (!isConfirmed)
             return;
 
-        _hp.DeleteHabit(Hb.Id);
+        var success = await _hp.DeleteHabitAsync(Hb.Id);
 
-        await Shell.Current.GoToAsync("..");
+        if (success)
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+        else  // ja nav šāda ieraduma vai nav pieejams serveris
+        {
+            await Shell.Current.DisplayAlertAsync("Server Error", "Failed to delete habit.", "OK");
+            return;
+        }
     }
 
     public async Task ReloadHabitAsync()  // MI atgādināja, ka vajag atjaunot ObservableProperty pēc objekta rediģēšanas
@@ -69,10 +86,10 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (Hb == null)
             return;
 
-        var reloadedHabit = _hp.GetHabit(Hb.Id);
-        if (reloadedHabit != null)
+        var reloadedDto = await _hp.GetHabitAsync(Hb.Id);
+        if (reloadedDto != null)
         {
-            Hb = reloadedHabit;
+            Hb = reloadedDto.ToDomain();
         }
     }
 }

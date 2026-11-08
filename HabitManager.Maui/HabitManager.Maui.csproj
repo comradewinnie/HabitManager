@@ -73,7 +73,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\HabitManager.Domain\HabitManager.Domain.csproj" />
-		<ProjectReference Include="..\HabitManager.TestData\HabitManager.TestData.csproj" />
+		<ProjectReference Include="..\HabitManager.Models\HabitManager.Models.csproj" />
+		<ProjectReference Include="..\HabitManager.Shared\HabitManager.Shared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

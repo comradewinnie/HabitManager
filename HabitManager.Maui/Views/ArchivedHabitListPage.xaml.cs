@@ -16,6 +16,7 @@ public partial class ArchivedHabitListPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _vm.LoadHabits();
+        if (BindingContext is ArchivedHabitListViewModel vm)
+            await vm.LoadHabitsAsync();
     }
 }

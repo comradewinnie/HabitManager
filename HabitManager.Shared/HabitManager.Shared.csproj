@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HabitManager.Domain\HabitManager.Domain.csproj" />
+    <ProjectReference Include="..\HabitManager.Models\HabitManager.Models.csproj" />
+  </ItemGroup>
+
+</Project>

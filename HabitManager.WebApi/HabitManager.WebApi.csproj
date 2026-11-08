@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HabitManager.Models\HabitManager.Models.csproj" />
+    <ProjectReference Include="..\HabitManager.Shared\HabitManager.Shared.csproj" />
     <ProjectReference Include="..\HabitManager.TestData\HabitManager.TestData.csproj" />
   </ItemGroup>
 

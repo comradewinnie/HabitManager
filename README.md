@@ -23,11 +23,14 @@ Projekta izstrādes laikā tika izmantots:
 17) Uzzināt, kur pievienot try-catch bloku, lai MAUI lietotne rādītu kļūdu paziņojumus.
 18) Apdomāt, kā nosaukt API ceļus.
 19) Uzzināt, ka HTTP metodē DELETE jāpadod identifikators, nevis viss objekts.
+20) Uzzināt, kā atgriezt Task no sinhronās metodes.
+21) Pajautāt, kur likt ToDto/ToDomain mapperus un kā tie izskatīsies.
+22) Pajautāt, ko darīt ar CreateHabitDto, MarkHabitAsCompletedDto un UpdateHabitDto.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
 1) Paskatīties, kā lasīt/rakstīt failā.
-2) Paskatīties, kāda ir MAUI lietotnes failu struktūra un saturs
+2) Paskatīties, kāda ir MAUI lietotnes failu struktūra un saturs.
 3) Paskatīties, kā izskatās API endpointi.
 
 - lekciju prezentācijas šādām vajadzībām:

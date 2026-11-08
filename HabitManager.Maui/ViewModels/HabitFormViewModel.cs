@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using HabitManager.Domain;
 using HabitManager.Maui.Data;
 using HabitManager.Maui.Helpers;
+using HabitManager.Models;
 
 namespace HabitManager.Maui.ViewModels
 {
@@ -55,26 +56,36 @@ namespace HabitManager.Maui.ViewModels
 
                 if (Hb is null)
                 {
-                    Habit hb = new Habit(
-                        id: Guid.NewGuid(),
-                        userId: _us.GetCurrentUserId(),
-                        title: Title,
-                        description: Description,
-                        status: Status.Active,
-                        periodicity: periodicity,
-                        history: new List<CompletionRecord>(),
-                        createdAt: DateTime.Now,
-                        updatedAt: DateTime.Now
+                    var dto = new CreateHabitDto(
+                        UserId: await _us.GetCurrentUserIdAsync(),
+                        Title: Title,
+                        Description: Description,
+                        Periodicity: periodicity
                     );
-                    _hp.AddHabit(hb);
+
+                    var success = await _hp.CreateHabitAsync(dto);
+                    if (!success)  // MI pievienoja šo
+                    {
+                        await Shell.Current.DisplayAlertAsync("Server Error", "Failed to create habit.", "OK");
+                        return;
+                    }
                 }
                 else
                 {
-                    Hb.Title = Title;
-                    Hb.Description = Description;
-                    Hb.Periodicity = periodicity;
-                    Hb.UpdatedAt = DateTime.Now;
-                    _hp.UpdateHabit(Hb);
+                    var dto = new UpdateHabitDto
+                    (
+                        HabitId: Hb.Id,
+                        Title: Title,
+                        Description: Description,
+                        Periodicity: periodicity
+                    );
+
+                    var success = await _hp.UpdateHabitAsync(dto);
+                    if (!success)
+                    {
+                        await Shell.Current.DisplayAlertAsync("Server Error", "Failed to update habit.", "OK");
+                        return;
+                    }
                 }
 
                 await Shell.Current.GoToAsync("..");

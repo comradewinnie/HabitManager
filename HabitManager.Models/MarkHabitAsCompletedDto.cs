@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HabitManager.Models
+﻿namespace HabitManager.Models
 {
     public record MarkHabitAsCompleteDto(
-        Guid HabitId
+        Guid HabitId,
+        DateTime CompletedAt
     );
 }

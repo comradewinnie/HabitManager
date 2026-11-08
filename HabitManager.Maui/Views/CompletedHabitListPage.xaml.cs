@@ -16,6 +16,7 @@ public partial class CompletedHabitListPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _vm.LoadHabits();
+        if (BindingContext is CompletedHabitListViewModel vm)
+            await vm.LoadHabitsAsync();
     }
 }

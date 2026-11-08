@@ -19,10 +19,10 @@ namespace HabitManager.Maui.ViewModels
         {
             _hp = hp;
             _us = us;
-            LoadHabits();  // lai rādītu sarakstu, kad pirmo reizi atvēram lapu
+            LoadHabitsAsync();  // lai rādītu sarakstu, kad pirmo reizi atvēram lapu
         }
 
-        public abstract void LoadHabits();  // lai atjaunotu katru reizi, kad atgriežamies lapā
+        public abstract Task LoadHabitsAsync();  // lai atjaunotu katru reizi, kad atgriežamies lapā
 
         [RelayCommand]
         public async Task ShowHabitDetailsAsync(Habit hb)
