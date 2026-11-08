@@ -32,6 +32,7 @@ Projekta izstrādes laikā tika izmantots:
 1) Paskatīties, kā lasīt/rakstīt failā.
 2) Paskatīties, kāda ir MAUI lietotnes failu struktūra un saturs.
 3) Paskatīties, kā izskatās API endpointi.
+4) Paskatīties, kā izskatās API klients.
 
 - lekciju prezentācijas šādām vajadzībām:
 

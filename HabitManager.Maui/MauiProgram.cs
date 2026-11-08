@@ -18,7 +18,11 @@ namespace HabitManager.Maui
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
             builder.Services.AddSingleton<IUserService, TestUserService>();
-            builder.Services.AddSingleton<IHabitProvider, TestHabitProvider>();
+            builder.Services.AddSingleton<IHabitProvider, HabitApiService>();
+            builder.Services.AddSingleton(new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5290/")
+            });
 
             builder.Services.AddTransient<UncompletedHabitListViewModel>();
             builder.Services.AddTransient<CompletedHabitListViewModel>();

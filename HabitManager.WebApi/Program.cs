@@ -86,8 +86,11 @@ app.MapPost("/api/habits/{id}/complete", (MarkHabitAsCompleteDto dto) =>
 });
 
 // PUT existing habit
-app.MapPut("/api/habits", (UpdateHabitDto dto) =>
+app.MapPut("/api/habits/{id}", (Guid id, UpdateHabitDto dto) =>
 {
+    if (id != dto.HabitId)  // MI pievienoja šo
+        return Results.BadRequest("ID mismatch");
+
     var hb = DataGenerator.GetTestHabit(dto.HabitId);
     if (hb == null)
         return Results.NotFound();
@@ -112,7 +115,7 @@ app.MapPut("/api/habits/{id}/toggle-status", (Guid id) =>
 });
 
 // DELETE habit
-app.MapDelete("/api/habits", (Guid id) =>
+app.MapDelete("/api/habits/{id}", (Guid id) =>
 {
     if (DataGenerator.DeleteTestHabit(id))
         return Results.Ok();

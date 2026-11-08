@@ -80,7 +80,7 @@ namespace HabitManager.Maui.ViewModels
                         Periodicity: periodicity
                     );
 
-                    var success = await _hp.UpdateHabitAsync(dto);
+                    var success = await _hp.UpdateHabitAsync(Hb.Id, dto);
                     if (!success)
                     {
                         await Shell.Current.DisplayAlertAsync("Server Error", "Failed to update habit.", "OK");
