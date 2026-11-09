@@ -29,6 +29,9 @@ Projekta izstrādes laikā tika izmantots:
 23) Uzzināt, kā sadalīt servera kļūdas pa kategorijām.
 24) Pajautāt, kur ķert domēna modeļa izņēmumus un gadījumus, kad nedarbojas datu fails.
 25) Uzzināt, kā pievienot ikonas TabBarā un skatā.
+26) Uzzināt, kā pielikt JsonPropertyName pie record.
+27) Saprast, kāpēc Android lietotne nevar piekļūt serverim.
+28) Uzzināt, ka taimauts pie SocketsHttpHandler atgriež TaskCanceledException, nevis HttpRequestException.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
@@ -40,3 +43,8 @@ Projekta izstrādes laikā tika izmantots:
 - lekciju prezentācijas šādām vajadzībām:
 
 1) Paskatīties, kā ieslēgt Swagger.
+
+TO DO:
+1) Nerādīt vairākus DisplayAlert vienlaikus ar vienu un to pašu kļūdu.
+2) Atgriezt no servera kā kļūdu nevis pliku simbolu virkni, bet JSON objektu, līdz ar to noņemt .Trim('"').
+3) Pievienot laika saglabāšanu "Mark As Complete" pogā.

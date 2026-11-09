@@ -13,7 +13,7 @@ namespace HabitManager.Maui.ViewModels
         protected IUserService _us;
 
         [ObservableProperty]
-        protected ObservableCollection<Habit> _habits;
+        protected ObservableCollection<Habit> _habits = new();
 
         public HabitListViewModel(IHabitProvider hp, IUserService us)
         {

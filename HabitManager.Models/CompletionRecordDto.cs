@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
 namespace HabitManager.Models
 {
     public record CompletionRecordDto(
-        Guid Id,
-        Guid HabitId,
-        DateTime CompletedAt
+        [property: JsonPropertyName("id")] Guid Id,
+        [property: JsonPropertyName("habitId")] Guid HabitId,
+        [property: JsonPropertyName("completedAt")] DateTime CompletedAt
     );
 }

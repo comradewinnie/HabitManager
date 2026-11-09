@@ -1,9 +1,11 @@
-﻿namespace HabitManager.Models
+﻿using System.Text.Json.Serialization;
+
+namespace HabitManager.Models
 {
     public record CreateHabitDto(
-        string UserId,  // tikai kamēr nav autentifikācijas
-        string Title,
-        string? Description = null,
-        List<DayOfWeek> Periodicity
+        [property: JsonPropertyName("userId")] string UserId,  // tikai kamēr nav autentifikācijas
+        [property: JsonPropertyName("title")] string Title,
+        [property: JsonPropertyName("periodicity")] List<DayOfWeek> Periodicity,
+        [property: JsonPropertyName("description")] string? Description = null
     );
 }

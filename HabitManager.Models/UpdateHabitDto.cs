@@ -1,9 +1,11 @@
-﻿namespace HabitManager.Models
+﻿using System.Text.Json.Serialization;
+
+namespace HabitManager.Models
 {
     public record UpdateHabitDto(
-        Guid HabitId,
-        string Title,
-        string? Description,
-        List<DayOfWeek> Periodicity
+        [property: JsonPropertyName("habitId")] Guid HabitId,
+        [property: JsonPropertyName("title")] string Title,
+        [property: JsonPropertyName("description")] string? Description,
+        [property: JsonPropertyName("periodicity")] List<DayOfWeek> Periodicity
     );
 }

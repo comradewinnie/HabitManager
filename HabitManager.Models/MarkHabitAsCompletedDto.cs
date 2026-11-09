@@ -1,7 +1,9 @@
-﻿namespace HabitManager.Models
+﻿using System.Text.Json.Serialization;
+
+namespace HabitManager.Models
 {
     public record MarkHabitAsCompleteDto(
-        Guid HabitId,
-        DateTime CompletedAt
+        [property: JsonPropertyName("habitId")] Guid HabitId,
+        [property: JsonPropertyName("completedAt")] DateTime CompletedAt
     );
 }

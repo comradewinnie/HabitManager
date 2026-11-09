@@ -59,8 +59,8 @@ namespace HabitManager.Maui.ViewModels
                     var dto = new CreateHabitDto(
                         UserId: await _us.GetCurrentUserIdAsync(),
                         Title: Title,
-                        Description: Description,
-                        Periodicity: periodicity
+                        Periodicity: periodicity,
+                        Description: Description
                     );
 
                     await _hp.CreateHabitAsync(dto);

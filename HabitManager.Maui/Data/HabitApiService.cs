@@ -24,12 +24,18 @@ namespace HabitManager.Maui.Data
                     return true;
 
                 var errorMsg = await response.Content.ReadAsStringAsync();  // ja nebija izveidots
+                errorMsg = errorMsg.Trim('"');  // MI ieteica šo, lai nebūu pēdiņu sākumā un beigās, jo serveris atgriež kļūdu kā JSON
                 throw new InvalidOperationException(errorMsg);
             }
-            catch (HttpRequestException ex)  // ja neizdevās piekļūt serverim
+            catch (HttpRequestException ex)  // ja problēmas ar tīklu
             {
                 Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)  // ja serveris neatbild
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -43,12 +49,18 @@ namespace HabitManager.Maui.Data
                     return true;
 
                 var errorMsg = await response.Content.ReadAsStringAsync();
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"DeleteHabitAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -62,12 +74,18 @@ namespace HabitManager.Maui.Data
                     return await response.Content.ReadFromJsonAsync<HabitDto>();
 
                 var errorMsg = await response.Content.ReadAsStringAsync();
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"GetHabitAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -86,12 +104,18 @@ namespace HabitManager.Maui.Data
                 }
 
                 var errorMsg = await response.Content.ReadAsStringAsync();  // ja nesaņēmām
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
-            catch (HttpRequestException ex)  // ja neizdevās piekļūt serverim
+            catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"GetHabitCompletionHistoryAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -110,12 +134,18 @@ namespace HabitManager.Maui.Data
                 }
 
                 var errorMsg = await response.Content.ReadAsStringAsync();
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"GetUserHabitsAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -129,12 +159,18 @@ namespace HabitManager.Maui.Data
                     return true;
 
                 var errorMsg = await response.Content.ReadAsStringAsync();
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"MarkAsCompleteAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -148,12 +184,18 @@ namespace HabitManager.Maui.Data
                     return true;
 
                 var errorMsg = await response.Content.ReadAsStringAsync();
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"ToggleHabitStatusAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
 
@@ -167,12 +209,18 @@ namespace HabitManager.Maui.Data
                     return true;
 
                 var errorMsg = await response.Content.ReadAsStringAsync();
+                errorMsg = errorMsg.Trim('"');
                 throw new InvalidOperationException(errorMsg);
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine($"UpdateHabitAsync error: {ex.Message}");
-                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Network error. Please check your internet connection.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
+                throw new InvalidOperationException("Server unavailable. Please try later.");
             }
         }
     }
