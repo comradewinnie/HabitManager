@@ -8,15 +8,15 @@
     Title="HabitManager.Maui">
 
     <TabBar>  <!-- saģenerēja MI -->
-        <Tab Title="Uncompleted">
+        <Tab Title="Uncompleted" Icon="task-list.png">
             <ShellContent ContentTemplate="{DataTemplate views:UncompletedHabitListPage}" />
         </Tab>
 
-        <Tab Title="Completed Today">
+        <Tab Title="Completed Today" Icon="black-check-mark.png">
             <ShellContent ContentTemplate="{DataTemplate views:CompletedHabitListPage}" />
         </Tab>
 
-        <Tab Title="Archived">
+        <Tab Title="Archived" Icon="archive.png">
             <ShellContent ContentTemplate="{DataTemplate views:ArchivedHabitListPage}" />
         </Tab>
     </TabBar>

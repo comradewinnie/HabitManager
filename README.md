@@ -28,6 +28,7 @@ Projekta izstrādes laikā tika izmantots:
 22) Pajautāt, ko darīt ar CreateHabitDto, MarkHabitAsCompletedDto un UpdateHabitDto.
 23) Uzzināt, kā sadalīt servera kļūdas pa kategorijām.
 24) Pajautāt, kur ķert domēna modeļa izņēmumus un gadījumus, kad nedarbojas datu fails.
+25) Uzzināt, kā pievienot ikonas TabBarā un skatā.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
