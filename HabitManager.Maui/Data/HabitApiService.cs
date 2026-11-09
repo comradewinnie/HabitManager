@@ -19,12 +19,17 @@ namespace HabitManager.Maui.Data
             try
             {
                 var response = await _http.PostAsJsonAsync("api/habits", dto);
-                return response.IsSuccessStatusCode;  // MI ieteica izmantot šo, ja metode atgriež bool
+
+                if (response.IsSuccessStatusCode)  // ja bija izveidots
+                    return true;
+
+                var errorMsg = await response.Content.ReadAsStringAsync();  // ja nebija izveidots
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)  // ja neizdevās piekļūt serverim
             {
                 Debug.WriteLine($"CreateHabitAsync error: {ex.Message}");
-                return false;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
@@ -33,84 +38,84 @@ namespace HabitManager.Maui.Data
             try
             {
                 var response = await _http.DeleteAsync($"api/habits/{id}");
-                return response.IsSuccessStatusCode;
+
+                if (response.IsSuccessStatusCode)
+                    return true;
+
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"DeleteHabitAsync error: {ex.Message}");
-                return false;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
-        public async Task<HabitDto?> GetHabitAsync(Guid id)
+        public async Task<HabitDto> GetHabitAsync(Guid id)
         {
             try
             {
                 var response = await _http.GetAsync($"api/habits/{id}");
 
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;  // ja nav šāda ieraduma
-                }
+                if (response.IsSuccessStatusCode)
+                    return await response.Content.ReadFromJsonAsync<HabitDto>();
 
-                response.EnsureSuccessStatusCode();
-
-                return await response.Content.ReadFromJsonAsync<HabitDto>();
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"GetHabitAsync error: {ex.Message}");
-                return null;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
-        public async Task<IReadOnlyList<CompletionRecordDto>?> GetHabitCompletionHistoryAsync(Guid id)
+        public async Task<IReadOnlyList<CompletionRecordDto>> GetHabitCompletionHistoryAsync(Guid id)
         {
             try
             {
                 var response = await _http.GetAsync($"api/habits/{id}/completion-history");
 
-                if (response.StatusCode == HttpStatusCode.NotFound)
+                if (response.IsSuccessStatusCode)  // ja saņēmām
                 {
-                    return null;  // ja nav šāda ieraduma
-                }
-
-                response.EnsureSuccessStatusCode();
-
-                var history = await response.Content.ReadFromJsonAsync<List<CompletionRecordDto>>()
+                    var history = await response.Content.ReadFromJsonAsync<List<CompletionRecordDto>>()
                               ?? new List<CompletionRecordDto>();
 
-                return history;
+                    return history;
+                }
+
+                var errorMsg = await response.Content.ReadAsStringAsync();  // ja nesaņēmām
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)  // ja neizdevās piekļūt serverim
             {
                 Debug.WriteLine($"GetHabitCompletionHistoryAsync error: {ex.Message}");
-                return null;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
-        public async Task<IEnumerable<HabitDto>?> GetUserHabitsAsync(string userId)
+        public async Task<IEnumerable<HabitDto>> GetUserHabitsAsync(string userId)
         {
             try
             {
                 var response = await _http.GetAsync($"api/users/{userId}/habits");
 
-                if (response.StatusCode == HttpStatusCode.NotFound)
+                if (response.IsSuccessStatusCode)
                 {
-                    return null;  // ja nav šāda lietotāja
-                }
-
-                response.EnsureSuccessStatusCode();
-
-                var habits = await response.Content.ReadFromJsonAsync<List<HabitDto>>()
+                    var habits = await response.Content.ReadFromJsonAsync<List<HabitDto>>()
                              ?? new List<HabitDto>();
 
-                return habits;
+                    return habits;
+                }
+
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"GetUserHabitsAsync error: {ex.Message}");
-                return null;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
@@ -119,12 +124,17 @@ namespace HabitManager.Maui.Data
             try
             {
                 var response = await _http.PostAsJsonAsync($"api/habits/{dto.HabitId}/complete", dto);
-                return response.IsSuccessStatusCode;
+
+                if (response.IsSuccessStatusCode)
+                    return true;
+
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"MarkAsCompleteAsync error: {ex.Message}");
-                return false;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
@@ -133,12 +143,17 @@ namespace HabitManager.Maui.Data
             try
             {
                 var response = await _http.PutAsync($"api/habits/{id}/toggle-status", null);  // null, tāpēc ka nepadodam nekādus objektus
-                return response.IsSuccessStatusCode;
+
+                if (response.IsSuccessStatusCode)
+                    return true;
+
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"ToggleHabitStatusAsync error: {ex.Message}");
-                return false;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
 
@@ -147,12 +162,17 @@ namespace HabitManager.Maui.Data
             try
             {
                 var response = await _http.PutAsJsonAsync($"api/habits/{id}", dto);
-                return response.IsSuccessStatusCode;
+
+                if (response.IsSuccessStatusCode)
+                    return true;
+
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMsg);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"UpdateHabitAsync error: {ex.Message}");
-                return false;
+                throw new InvalidOperationException("Server unavailable. Check your internet connection or try later.");
             }
         }
     }

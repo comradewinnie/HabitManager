@@ -26,6 +26,8 @@ Projekta izstrādes laikā tika izmantots:
 20) Uzzināt, kā atgriezt Task no sinhronās metodes.
 21) Pajautāt, kur likt ToDto/ToDomain mapperus un kā tie izskatīsies.
 22) Pajautāt, ko darīt ar CreateHabitDto, MarkHabitAsCompletedDto un UpdateHabitDto.
+23) Uzzināt, kā sadalīt servera kļūdas pa kategorijām.
+24) Pajautāt, kur ķert domēna modeļa izņēmumus un gadījumus, kad nedarbojas datu fails.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 

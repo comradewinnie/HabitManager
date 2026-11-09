@@ -63,12 +63,7 @@ namespace HabitManager.Maui.ViewModels
                         Periodicity: periodicity
                     );
 
-                    var success = await _hp.CreateHabitAsync(dto);
-                    if (!success)  // MI pievienoja šo
-                    {
-                        await Shell.Current.DisplayAlertAsync("Server Error", "Failed to create habit.", "OK");
-                        return;
-                    }
+                    await _hp.CreateHabitAsync(dto);
                 }
                 else
                 {
@@ -80,19 +75,14 @@ namespace HabitManager.Maui.ViewModels
                         Periodicity: periodicity
                     );
 
-                    var success = await _hp.UpdateHabitAsync(Hb.Id, dto);
-                    if (!success)
-                    {
-                        await Shell.Current.DisplayAlertAsync("Server Error", "Failed to update habit.", "OK");
-                        return;
-                    }
+                    await _hp.UpdateHabitAsync(Hb.Id, dto);
                 }
 
                 await Shell.Current.GoToAsync("..");
             }
-            catch (ArgumentException ex)
+            catch (InvalidOperationException ex)
             {
-                await Shell.Current.DisplayAlertAsync("Validation Error", ex.Message, "OK");
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
             }
         }
 

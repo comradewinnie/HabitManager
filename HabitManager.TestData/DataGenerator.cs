@@ -158,14 +158,14 @@ namespace HabitManager.TestData
             var (users, habits) = LoadTestDataFromJson();
 
             var itemToRemove = habits.FirstOrDefault(h => h.Id == id);  // MI pateica, kā sameklēt objektu pēc īpašības vērtības
-            if (itemToRemove != null)
+            if (itemToRemove == null)
             {
-                habits.Remove(itemToRemove);
-                SaveTestDataToJson(users, habits);
-                return true;
+                return false;
             }
 
-            return false;
+            habits.Remove(itemToRemove);
+            SaveTestDataToJson(users, habits);
+            return true;
         }
 
         public static IEnumerable<Habit>? GetUserTestHabits(string userId)  // adaptēts pēc "UzdevumuParvaldnieks" piemēra

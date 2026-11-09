@@ -38,18 +38,17 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (Hb == null)
             return;
 
-        var success = await _hp.ToggleHabitStatusAsync(Hb.Id);
-
-        if (success)
+        try
         {
+            await _hp.ToggleHabitStatusAsync(Hb.Id);
+
             Hb.ToggleHabitStatus(); // MI pateica, ka drīkst mainīt statusu lokāli tikai pēc success no servera
             OnPropertyChanged(nameof(Hb));
             OnPropertyChanged(nameof(ArchiveButtonText));
         }
-        else
+        catch (InvalidOperationException ex)
         {
-            await Shell.Current.DisplayAlertAsync("Server Error", "Failed to change status of the habit.", "OK");
-            return;
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
         }
     }
 
@@ -68,16 +67,15 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (!isConfirmed)
             return;
 
-        var success = await _hp.DeleteHabitAsync(Hb.Id);
-
-        if (success)
+        try
         {
+            await _hp.DeleteHabitAsync(Hb.Id);
+
             await Shell.Current.GoToAsync("..");
         }
-        else  // ja nav šāda ieraduma vai nav pieejams serveris
+        catch (InvalidOperationException ex)  // ja nav šāda ieraduma vai nav pieejams serveris
         {
-            await Shell.Current.DisplayAlertAsync("Server Error", "Failed to delete habit.", "OK");
-            return;
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
         }
     }
 
@@ -86,10 +84,15 @@ public partial class HabitDetailsViewModel : ObservableObject  // adaptēts pēc
         if (Hb == null)
             return;
 
-        var reloadedDto = await _hp.GetHabitAsync(Hb.Id);
-        if (reloadedDto != null)
+        try
         {
+            var reloadedDto = await _hp.GetHabitAsync(Hb.Id);
+
             Hb = reloadedDto.ToDomain();
+        }
+        catch (InvalidOperationException ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
         }
     }
 }

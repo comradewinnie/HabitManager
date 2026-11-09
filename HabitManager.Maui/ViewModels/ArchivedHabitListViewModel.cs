@@ -15,17 +15,19 @@ namespace HabitManager.Maui.ViewModels
         [RelayCommand]
         public override async Task LoadHabitsAsync()
         {
-            var userId = await _us.GetCurrentUserIdAsync();
-            var allHabits = await _hp.GetUserHabitsAsync(userId);
-
-            if (allHabits == null)  // ja nav šāda lietotāja vai nav pieejams serveris
+            try
             {
-                Habits.Clear();  // MI ieteica šo, lai sarakstā nebūtu elementu no iepriekšējas ielādes
-                return;
-            }
+                var userId = await _us.GetCurrentUserIdAsync();
+                var allHabits = await _hp.GetUserHabitsAsync(userId);
 
-            var archivedHabits = allHabits.Where(hb => hb.Status == Status.Archived).Select(hb => hb.ToDomain()).ToList();  // MI ieteica pārveidot .ToList()
-            Habits = new ObservableCollection<Habit>(archivedHabits);
+                var archivedHabits = allHabits.Where(hb => hb.Status == Status.Archived).Select(hb => hb.ToDomain()).ToList();  // MI ieteica pārveidot .ToList()
+                Habits = new ObservableCollection<Habit>(archivedHabits);
+            }
+            catch (InvalidOperationException ex)  // ja nav šāda lietotāja vai nav pieejams serveris
+            {
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
+                Habits.Clear();  // MI ieteica šo, lai sarakstā nebūtu elementu no iepriekšējas ielādes
+            }
         }
 
         [RelayCommand]
@@ -34,17 +36,16 @@ namespace HabitManager.Maui.ViewModels
             if (hb == null)
                 return;
 
-            var success = await _hp.ToggleHabitStatusAsync(hb.Id);
-
-            if (success)
+            try
             {
+                await _hp.ToggleHabitStatusAsync(hb.Id);
+
                 hb.ToggleHabitStatus();
                 Habits.Remove(hb);
             }
-            else  // ja nav šāda ieraduma vai nav pieejams serveris
+            catch (InvalidOperationException ex)  // ja nav šāda ieraduma vai nav pieejams serveris
             {
-                await Shell.Current.DisplayAlertAsync("Server Error", "Failed to change status of the habit.", "OK");
-                return;
+                await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
             }
         }
     }
