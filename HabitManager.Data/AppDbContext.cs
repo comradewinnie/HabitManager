@@ -31,6 +31,11 @@ namespace HabitManager.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Habit>()  // Habit lauku konfigurācija
+                .Property(h => h.Id)
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<Habit>()
                 .Property(h => h.Title)
                 .IsRequired()
                 .HasMaxLength(30);
@@ -41,7 +46,8 @@ namespace HabitManager.Data
 
             modelBuilder.Entity<Habit>()
                 .Property(h => h.Description)
-                .IsRequired(false);
+                .IsRequired(false)
+                .HasMaxLength(250);
 
             modelBuilder.Entity<Habit>()
                 .Property(h => h.Status)
@@ -60,12 +66,25 @@ namespace HabitManager.Data
                 .IsRequired();
 
             modelBuilder.Entity<CompletionRecord>()  // CompletionRecord lauku konfigurācija
+                .Property(c => c.Id)
+                .ValueGeneratedOnAdd()  // MI ieteica ģenerēt ID datubāzē, lai nebūtu kļūdu, pievienojot jaunus izpildes ierakstus
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<CompletionRecord>()
                 .Property(c => c.HabitId)
                 .IsRequired();
 
             modelBuilder.Entity<CompletionRecord>()
                 .Property(c => c.CompletedAt)
                 .IsRequired();
+
+            modelBuilder.Entity<CompletionRecord>()  // MI ieteica izveidot ēnu rēķināmu īpašību
+                .Property<DateOnly>("CompletionDate")
+                .HasComputedColumnSql("CAST([CompletedAt] AS DATE)", stored: true);
+
+            modelBuilder.Entity<CompletionRecord>()  // veidojam ierobežojumu, lai nebūtu divu ierakstu vienā dienā
+                .HasIndex("HabitId", "CompletionDate")
+                .IsUnique();
         }
     }
 }

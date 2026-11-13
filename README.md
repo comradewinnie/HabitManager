@@ -49,3 +49,4 @@ TO DO:
 1) Nerādīt vairākus DisplayAlert vienlaikus ar vienu un to pašu kļūdu.
 2) Atgriezt no servera kā kļūdu nevis pliku simbolu virkni, bet JSON objektu, līdz ar to noņemt .Trim('"').
 3) Pievienot laika saglabāšanu "Mark As Complete" pogā.
+4) Pārbaudīt, ka jauni izņēmumi domēna modeļos būs noķerti programmā.

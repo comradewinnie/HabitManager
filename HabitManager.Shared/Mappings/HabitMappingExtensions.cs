@@ -53,7 +53,6 @@ namespace HabitManager.Shared.Mappings
         {
             return new Habit
             (
-                id: Guid.NewGuid(),
                 userId: dto.UserId,
                 title: dto.Title,
                 description: dto.Description,
