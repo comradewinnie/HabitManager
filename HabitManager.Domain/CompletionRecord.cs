@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
 namespace HabitManager.Domain
 {
@@ -9,6 +7,11 @@ namespace HabitManager.Domain
         public Guid Id { get; init; }
         public Guid HabitId { get; init; }
         public DateTime CompletedAt { get; init; }
+
+        [JsonIgnore]
+        public Habit? Habit { get; set; }  // MI pievienoja ER Core navigācijas īpašību ārejai atslēgai
+
+        public CompletionRecord() { }  // MI pievienoja tukšu konstruktoru priekš EF Core
 
         public CompletionRecord(Guid id, Guid habitId, DateTime completedAt)
         {

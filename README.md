@@ -32,6 +32,7 @@ Projekta izstrādes laikā tika izmantots:
 26) Uzzināt, kā pielikt JsonPropertyName pie record.
 27) Saprast, kāpēc Android lietotne nevar piekļūt serverim.
 28) Uzzināt, ka taimauts pie SocketsHttpHandler atgriež TaskCanceledException, nevis HttpRequestException.
+29) Izplānot, kā pāriet no datu glabāšanas atmiņā uz DB.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace HabitManager.Domain
 {
@@ -13,7 +10,7 @@ namespace HabitManager.Domain
         public string? Description { get; set; }
         public Status Status { get; set; }
         public List<DayOfWeek> Periodicity { get; set; }
-        private List<CompletionRecord> _history;
+        private List<CompletionRecord> _history = new();
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; set; }
 
@@ -46,6 +43,11 @@ namespace HabitManager.Domain
             }
         }
         public IReadOnlyList<CompletionRecord> History => _history;  // MI piedāvāja darīt šādi, lai ārpus klases neviens nevarētu izmainīt vēsturi
+
+        [JsonIgnore]
+        public User? User { get; set; }
+
+        public Habit() { }
 
         public Habit(Guid id, string userId, string title, string? description, Status status, List<DayOfWeek> periodicity, IReadOnlyList<CompletionRecord> history, DateTime createdAt, DateTime updatedAt)
         {

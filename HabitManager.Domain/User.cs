@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
 namespace HabitManager.Domain
 {
     public class User
     {
         private string _id;
+        private List<Habit> _habits = new();  // MI pievienoja īpašību 1:M saitei EF Core
+        [JsonIgnore]
+        public IReadOnlyList<Habit> Habits => _habits;
 
         public string Id
         {
@@ -22,6 +23,8 @@ namespace HabitManager.Domain
                 _id = value;
             }
         }
+
+        public User() { }
 
         public User(string id)
         {
