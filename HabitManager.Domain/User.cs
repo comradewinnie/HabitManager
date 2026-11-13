@@ -30,5 +30,20 @@ namespace HabitManager.Domain
         {
             Id = id;
         }
+
+        public void AddHabit(Habit hb)
+        {
+            if (hb == null)
+                throw new ArgumentNullException("Habit cannot be null.");
+
+            if (hb.UserId != Id)
+                throw new InvalidOperationException("Cannot add a habit that belongs to another user.");
+
+            if (_habits.Any(h => h.Id == hb.Id))
+                throw new InvalidOperationException("Habit with the same ID already linked to this user.");
+
+            _habits.Add(hb);
+        }
+
     }
 }
