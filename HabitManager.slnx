@@ -3,6 +3,7 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="HabitManager.Console/HabitManager.Console.csproj" Id="7e5d3dc7-daef-445c-a5d4-39984cf2fe0e" />
+  <Project Path="HabitManager.Data/HabitManager.Data.csproj" Id="dfbaecd3-07c2-4966-a2cc-96ab4d85f4d1" />
   <Project Path="HabitManager.Domain/HabitManager.Domain.csproj" />
   <Project Path="HabitManager.Maui/HabitManager.Maui.csproj" Id="19bb2d01-7f76-442f-a3b0-2459a91a0ef5">
     <Deploy Solution="Debug|*" />
