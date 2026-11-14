@@ -44,7 +44,7 @@ namespace HabitManager.Maui.ViewModels
             if (hb == null)
                 return;
 
-            string result = await Shell.Current.DisplayPromptAsync(  // saģenerēja MI
+            string date = await Shell.Current.DisplayPromptAsync(  // saģenerēja MI
                 title: "Complete Habit",
                 message: "Enter completion date:",
                 accept: "OK",
@@ -52,25 +52,42 @@ namespace HabitManager.Maui.ViewModels
                 placeholder: "DD.MM.YYYY",
                 initialValue: DateTime.Now.ToString("dd.MM.yyyy"));
 
-            if (string.IsNullOrWhiteSpace(result))
+            if (string.IsNullOrWhiteSpace(date))
+                return;
+
+            string time = await Shell.Current.DisplayPromptAsync(
+                title: "Complete Habit",
+                message: "Enter completion time (HH:mm):",
+                accept: "OK",
+                cancel: "Cancel",
+                placeholder: "HH:mm",
+                initialValue: DateTime.Now.ToString("HH:mm"));
+
+            if (string.IsNullOrWhiteSpace(time))
                 return;
 
             try
             {
-                if (DateTime.TryParse(result, out DateTime selectedDate))
+                if (DateTime.TryParse(date, out DateTime selectedDate) && TimeSpan.TryParse(time, out TimeSpan selectedTime))
                 {
+                    DateTime selectedDateTime = selectedDate.Date.Add(selectedTime);  // MI ieteica, kā apvienot datumu ar laiku
+
                     var dto = new MarkHabitAsCompleteDto(
                         HabitId: hb.Id,
-                        CompletedAt: selectedDate
+                        CompletedAt: selectedDateTime
                     );
                     await _hp.MarkAsCompleteAsync(dto);
 
-                    hb.MarkAsComplete(selectedDate);
+                    hb.MarkAsComplete(selectedDateTime);
                     
-                    if (selectedDate.Date == DateTime.Now.Date)
+                    if (selectedDateTime.Date == DateTime.Now.Date)
                     {
                         Habits.Remove(hb);  // MI atgādināja, ka vajag noņemt objektu no observable saraksta, lai saraksts uzreiz atjauninātos
                     }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "Invalid date or time format.", "OK");
                 }
             }
             catch (InvalidOperationException ex)  // ja nav šāda ieraduma vai nav pieejams serveris

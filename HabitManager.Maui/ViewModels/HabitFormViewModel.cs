@@ -80,7 +80,7 @@ namespace HabitManager.Maui.ViewModels
 
                 await Shell.Current.GoToAsync("..");
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException ex)  // ja ir validācijas kļūdas vai serveris nav pieejams
             {
                 await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
             }

@@ -37,7 +37,7 @@
                         <Frame Padding="12" BackgroundColor="Transparent">
                             <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
                                 <Image Source="green_check_mark.png" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" />
-                                <Label Text="{Binding CompletedAt, StringFormat='{}{0:dd.MM.yyyy}'}" FontSize="12" VerticalTextAlignment="Center" />
+                                <Label Text="{Binding CompletedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" FontSize="12" VerticalTextAlignment="Center" />
                             </HorizontalStackLayout>
                         </Frame>
                     </DataTemplate>
