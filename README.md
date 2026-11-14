@@ -1,4 +1,6 @@
-Rādās tikai savi (demo-user-1) ieradumi. Testēts uz Android.
+Rādās tikai savi (demo-user-1) ieradumi.
+Testēts uz Android.
+Datubāzes migrācija un testa datu pievienošana izpildās automātiski, palaižot HabitManager.WebApi projektu.
 
 Projekta izstrādes laikā tika izmantots:
 
@@ -32,7 +34,10 @@ Projekta izstrādes laikā tika izmantots:
 26) Uzzināt, kā pielikt JsonPropertyName pie record.
 27) Saprast, kāpēc Android lietotne nevar piekļūt serverim.
 28) Uzzināt, ka taimauts pie SocketsHttpHandler atgriež TaskCanceledException, nevis HttpRequestException.
-29) Izplānot, kā pāriet no datu glabāšanas atmiņā uz DB.
+29) Izplānot, kā pāriet no datu glabāšanas JSON uz datubāzi caur EF Core, un saģenerēt atbilstošo kodu.
+30) Uzzināt, kā veikt migrācijas automātiski.
+31) Saprast, ka, pārejot no JSON uz DB, vairs neder viena metode UpdateTestHabit no DataGenerator visa ieraduma pārrakstīšanai.
+32) Saprast, kāpēc negrib pievienoties jauns izpildes ieraksts, ja ID ģenerējas klienta pusē, nevis datubāzē.
 
 - kursa GitHub repozitorijs "UzdevumuParvaldnieks" šādām vajadzībām:
 
@@ -48,5 +53,3 @@ Projekta izstrādes laikā tika izmantots:
 TO DO:
 1) Nerādīt vairākus DisplayAlert vienlaikus ar vienu un to pašu kļūdu.
 2) Atgriezt no servera kā kļūdu nevis pliku simbolu virkni, bet JSON objektu, līdz ar to noņemt .Trim('"').
-3) Pievienot laika saglabāšanu "Mark As Complete" pogā.
-4) Pārbaudīt, ka jauni izņēmumi domēna modeļos būs noķerti programmā.
