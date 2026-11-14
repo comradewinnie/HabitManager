@@ -1,21 +1,40 @@
 // adaptēts pēc "UzdevumuParvaldnieks" piemēra
 
+using HabitManager.Data;
 using HabitManager.Models;
 using HabitManager.Shared.Mappings;
-using HabitManager.TestData;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IHabitRepository, EfHabitRepository>();
+
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())  // izveidoja MI
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+
+        context.Database.Migrate();  // automātiski veic migrācijas
+
+        DbSeeder.Seed(services);  // uzpilda datubāzi ar testa datiem, ja tā ir tukša
+    }
+    catch (Exception ex)
+    {
+        Debug.WriteLine($"An error occured while processing database: {ex.Message}");
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -26,11 +45,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // GET all habits by user
-app.MapGet("/api/users/{userId}/habits", (string userId) =>
+app.MapGet("/api/users/{userId}/habits", async (string userId, IHabitRepository repository) =>
 {
     try
     {
-        var domainHabits = DataGenerator.GetUserTestHabits(userId);
+        var domainHabits = await repository.GetUserHabitsAsync(userId);
         if (domainHabits == null)
             return Results.NotFound("This user does not exist.");  // MI uzrakstīja tekstu kļūdai
 
@@ -40,17 +59,17 @@ app.MapGet("/api/users/{userId}/habits", (string userId) =>
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"GetUserTestHabits error: {ex.Message}");
+        Debug.WriteLine($"GetUserHabitsAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to load habits on server. Try later.");
     }
 });
 
 // GET habit by id
-app.MapGet("/api/habits/{id}", (Guid id) =>
+app.MapGet("/api/habits/{id}", async (Guid id, IHabitRepository repository) =>
 {
     try
     {
-        var hb = DataGenerator.GetTestHabit(id);
+        var hb = await repository.GetHabitAsync(id);
         if (hb == null)
             return Results.NotFound("This habit does not exist.");
 
@@ -58,17 +77,17 @@ app.MapGet("/api/habits/{id}", (Guid id) =>
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"GetTestHabit error: {ex.Message}");
+        Debug.WriteLine($"GetHabitAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to load habit on server. Try later.");
     }
 });
 
 // GET habit completion history
-app.MapGet("/api/habits/{id}/completion-history", (Guid id) =>
+app.MapGet("/api/habits/{id}/completion-history", async (Guid id, IHabitRepository repository) =>
 {
     try
     {
-        var domainHistory = DataGenerator.GetTestHabitCompletionHistory(id);
+        var domainHistory = await repository.GetHabitCompletionHistoryAsync(id);
         if (domainHistory == null)
             return Results.NotFound("This habit does not exist.");
 
@@ -78,19 +97,19 @@ app.MapGet("/api/habits/{id}/completion-history", (Guid id) =>
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"GetTestHabitCompletionHistory error: {ex.Message}");
+        Debug.WriteLine($"GetHabitCompletionHistoryAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to load completion history on server. Try later.");
     }
 });
 
 // POST new habit
-app.MapPost("/api/habits", (CreateHabitDto dto) =>
+app.MapPost("/api/habits", async (CreateHabitDto dto, IHabitRepository repository) =>
 {
     try
     {
         var hb = dto.ToDomain();
-        DataGenerator.AddTestHabit(hb);
-        
+        await repository.AddHabitAsync(hb);
+
         return Results.Created($"/api/habits/{hb.Id}", hb.ToDto());
     }
     catch (ArgumentException ex)
@@ -99,24 +118,20 @@ app.MapPost("/api/habits", (CreateHabitDto dto) =>
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"AddTestHabit error: {ex.Message}");
+        Debug.WriteLine($"AddHabitAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to create habit on server. Try later.");
     }
 });
 
 // POST new completion record to the habit
-app.MapPost("/api/habits/{id}/complete", (MarkHabitAsCompleteDto dto) =>
+app.MapPost("/api/habits/{id}/complete", async (MarkHabitAsCompleteDto dto, IHabitRepository repository) =>
 {
     try
     {
-        var hb = DataGenerator.GetTestHabit(dto.HabitId);
-        if (hb == null)
+        if (await repository.AddCompletionRecordAsync(dto.HabitId, dto.CompletedAt))
+            return Results.Ok();
+        else
             return Results.NotFound("This habit does not exist.");
-
-        hb.MarkAsComplete(dto.CompletedAt);
-        DataGenerator.UpdateTestHabit(hb);
-
-        return Results.Ok();
     }
     catch (InvalidOperationException ex)
     {
@@ -124,27 +139,23 @@ app.MapPost("/api/habits/{id}/complete", (MarkHabitAsCompleteDto dto) =>
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"UpdateTestHabit error: {ex.Message}");
+        Debug.WriteLine($"AddCompletionRecordAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to update habit on server. Try later.");
     }
 });
 
 // PUT existing habit
-app.MapPut("/api/habits/{id}", (Guid id, UpdateHabitDto dto) =>
+app.MapPut("/api/habits/{id}", async (Guid id, UpdateHabitDto dto, IHabitRepository repository) =>
 {
     if (id != dto.HabitId)  // MI pievienoja šo
         return Results.BadRequest("ID mismatch.");
 
-    var hb = DataGenerator.GetTestHabit(dto.HabitId);
-    if (hb == null)
-        return Results.NotFound("This habit does not exist.");
-
     try
     {
-        hb.UpdateDetails(dto.Title, dto.Description, dto.Periodicity);
-        DataGenerator.UpdateTestHabit(hb);
-
-        return Results.Ok();
+        if (await repository.UpdateHabitDetailsAsync(dto.HabitId, dto.Title, dto.Description, dto.Periodicity))
+            return Results.Ok();
+        else
+            return Results.NotFound("This habit does not exist.");
     }
     catch (ArgumentException ex)
     {
@@ -152,44 +163,40 @@ app.MapPut("/api/habits/{id}", (Guid id, UpdateHabitDto dto) =>
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"UpdateTestHabit error: {ex.Message}");
+        Debug.WriteLine($"UpdateHabitDetailsAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to update habit on server. Try later.");
     }
 });
 
 // PUT existing habit (toggle status)
-app.MapPut("/api/habits/{id}/toggle-status", (Guid id) =>
+app.MapPut("/api/habits/{id}/toggle-status", async (Guid id, IHabitRepository repository) =>
 {
     try
     {
-        var hb = DataGenerator.GetTestHabit(id);
-        if (hb == null)
+        if (await repository.UpdateHabitStatusAsync(id))
+            return Results.Ok();
+        else
             return Results.NotFound("This habit does not exist.");
-
-        hb.ToggleHabitStatus();
-        DataGenerator.UpdateTestHabit(hb);
-
-        return Results.Ok();
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"UpdateTestHabit error: {ex.Message}");
+        Debug.WriteLine($"UpdateHabitStatusAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to update habit on server. Try later.");
     }
 });
 
 // DELETE habit
-app.MapDelete("/api/habits/{id}", (Guid id) =>
+app.MapDelete("/api/habits/{id}", async (Guid id, IHabitRepository repository) =>
 {
     try
     {
-        if (DataGenerator.DeleteTestHabit(id))
+        if (await repository.DeleteHabitAsync(id))
             return Results.Ok();
         else return Results.NotFound("This habit does not exist.");
     }
     catch (Exception ex)
     {
-        Debug.WriteLine($"DeleteTestHabit error: {ex.Message}");
+        Debug.WriteLine($"DeleteHabitAsync error: {ex.Message}");
         return Results.InternalServerError("Failed to delete habit on server. Try later.");
     }
 });
